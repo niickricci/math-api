@@ -1,40 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Test /api/maths</title>
-</head>
-<body>
-    <h1> Test du service /api/maths</h1>
+  </head>
+  <body>
+    <h1>Test du service /api/maths</h1>
     <fieldset>
-        <legend>
-            <h3>Url du service</h3>
-        </legend>
-        <input style="width: 20%;" type="url" id="test-url" value="http://localhost:5000/api/maths"/>
-        <span>/api/maths</span>
-        <button id="test-btn">Démarrer le test</button>
-        <button id="help-btn">Aide</button>
+      <legend>
+        <h3>Url du service</h3>
+      </legend>
+      <input
+        style="width: 20%"
+        type="url"
+        id="test-url"
+        value="http://localhost:5000/api/maths"
+      />
+      <span>/api/maths</span>
+      <button id="test-btn">Démarrer le test</button>
+      <button id="help-btn">Aide</button>
     </fieldset>
     <fieldset>
-        <legend>
-            <h3>Tests</h3>
-        </legend>
+      <legend>
+        <h3>Tests</h3>
+      </legend>
 
-        <!-- Tests -->
-        <div id="test-container" class="container"></div>
+      <!-- Tests -->
+      <div id="test-container" class="container"></div>
     </fieldset>
     <!-- Verdict -->
     <fieldset>
-        <legend>
-            <h3>Verdict</h3>
-        </legend>
+      <legend>
+        <h3>Verdict</h3>
+      </legend>
 
-        <!-- Verdict -->
-        <div id="verdict-container" class="container"></div>
+      <!-- Verdict -->
+      <div id="verdict-container" class="container"></div>
     </fieldset>
-    <br>
-    <hr>
-    <h5>Math-API | Nicolas Ricci & Benjamin Gerard</span> 
-</body>
+    <br />
+    <hr />
+    <h5>Math-API | Nicolas Ricci & Benjamin Gerard</h5>
+  </body>
 </html>
+
+<script>
+  const urls = [
+    "http://localhost:5000/api/maths?x=3&y=5&op=+",
+    "http://localhost:5000/api/maths?x=10&y=-2&op=+",
+    "http://localhost:5000/api/maths?x=5&y=a&op=+",
+    "http://localhost:5000/api/maths?x=7&y=6&op=*",
+    "http://localhost:5000/api/maths?x=8&y=0&op=*",
+    "http://localhost:5000/api/maths?x=9&y=-3&op=*",
+    "http://localhost:5000/api/maths?x=12&y=3x&op=*",
+    "http://localhost:5000/api/maths?x=10&y=2&op=/",
+    "http://localhost:5000/api/maths?x=9&y=3&op=/",
+    "http://localhost:5000/api/maths?x=5&y=0&op=/",
+    "http://localhost:5000/api/maths?x=15&y=b&op=/",
+    "http://localhost:5000/api/maths?x=5&y=3&op=-",
+    "http://localhost:5000/api/maths?x=20&y=7&op=-",
+    "http://localhost:5000/api/maths?x=15&y=-4&op=-",
+    "http://localhost:5000/api/maths?x=abc&y=2&op=-",
+    "http://localhost:5000/api/maths?x=3&y=4&op=plus",
+    "http://localhost:5000/api/maths?x=10&y=5&op=%",
+    "http://localhost:5000/api/maths?x=7&y=&op=+",
+    "http://localhost:5000/api/maths?x=&y=3&op=*",
+  ];
+
+  function afficherReponse(response, url) {
+    const container = document.getElementById("test-container");
+    const div = document.createElement("div");
+    div.innerHTML = `<strong>URL:</strong> ${url} <br><strong>Réponse:</strong> ${JSON.stringify(
+      response
+    )}`;
+    container.appendChild(div);
+  }
+
+  function testerUrls() {
+    document.getElementById("test-container").innerHTML = "";
+
+    urls.forEach((url) => {
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          afficherReponse(data, url);
+        })
+        .catch((error) => {
+          afficherReponse({ error: "Erreur lors de la requête" }, url);
+        });
+    });
+  }
+
+  document.getElementById("test-btn").addEventListener("click", testerUrls);
+</script>

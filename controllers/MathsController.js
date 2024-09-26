@@ -42,7 +42,8 @@ export default class MathsController extends Controller {
     const count = 3; //op, x & y
     if (Object.keys(this.params).length > count)
       return this.error("Theres too many parameters in the request");
-    if (!this.hasX && !this.hasY) return this.error("Parameter x & y are missing.");
+    if (!this.hasX && !this.hasY)
+      return this.error("Parameter x & y are missing.");
     if (!this.hasX) return this.error("Parameter x is missing.");
     if (!this.hasY) return this.error("Parameter y is missing.");
     if (isNaN(x)) return this.error("Parameter x is not a valid number.");
