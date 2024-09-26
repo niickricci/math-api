@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GET: Maths endpoint</title>
+  </head>
+  <body>
+    <h1>GET: Maths endpoint</h1>
+    <h2>List of possible query strings:</h2>
+    <fieldset style="font-weight: bold;">
+      <p>? op = + & x = number & y = number
+        <p>return {"op":"+","x": number, "y":number, "value": x+y}</p>
+      </p>
+      <p>? op = - & x = number & y = number
+        <p>return {"op":"-","x": number, "y":number, "value": x-y}</p>
+      </p>
+      <p>? op = * & x = number & y = number
+        <p>return {"op":"*","x": number, "y":number, "value": x*y}</p>
+      </p>
+      <p>? op = / & x = number & y = number
+        <p>return {"op":"/","x": number, "y":number, "value": x/y}</p>
+      </p>
+      <p>? op = % & x = number & y = number
+        <p>return {"op":"%","x": number, "y":number, "value": x%y}</p>
+      </p>
+      <p>? op = ! & n = integer
+        <p>return {"op":"%","n": integer,"value": n!}</p>
+      </p>
+      <p>? op = p & n = integer
+        <p>return {"op":"p","n": integer,"value": true if n is a prime number}</p>
+      </p>
+      <p>? op = np & n = integer
+        <p>return {"op":"n","n": integer,"value": nth prime number}</p>
+      </p>
+    </fieldset>
+    
+    <h5>Math-API | Nicolas Ricci & Benjamin Gerard</h5>
+  </body>
+</html>
