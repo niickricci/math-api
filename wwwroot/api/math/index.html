@@ -45,6 +45,7 @@
 </html>
 
 <script>
+  // Tableau des URLs à tester
   const urls = [
     "http://localhost:5000/api/maths?x=3&y=5&op=+",
     "http://localhost:5000/api/maths?x=10&y=-2&op=+",
@@ -67,27 +68,45 @@
     "http://localhost:5000/api/maths?x=&y=3&op=*",
   ];
 
-  function afficherReponse(response, url) {
+  let errors = false;
+
+  function afficherReponse(response, url, isError = false) {
     const container = document.getElementById("test-container");
     const div = document.createElement("div");
     div.innerHTML = `<strong>URL:</strong> ${url} <br><strong>Réponse:</strong> ${JSON.stringify(
       response
     )}`;
     container.appendChild(div);
+
+    if (isError) {
+      errors = true;
+    }
   }
 
   function testerUrls() {
     document.getElementById("test-container").innerHTML = "";
+    document.getElementById("verdict-container").innerHTML = "";
+    errors = false;
 
-    urls.forEach((url) => {
-      fetch(url)
+    let promises = urls.map((url) => {
+      return fetch(url)
         .then((response) => response.json())
         .then((data) => {
           afficherReponse(data, url);
         })
         .catch((error) => {
-          afficherReponse({ error: "Erreur lors de la requête" }, url);
+          afficherReponse({ error: "Erreur lors de la requête" }, url, true);
         });
+    });
+
+    Promise.all(promises).then(() => {
+      const verdictContainer = document.getElementById("verdict-container");
+      if (!errors) {
+        verdictContainer.innerHTML = "<strong>Bravo! aucun problème</strong>";
+      } else {
+        verdictContainer.innerHTML =
+          "<strong>Des erreurs ont été rencontrées.</strong>";
+      }
     });
   }
 
