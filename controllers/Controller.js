@@ -17,6 +17,7 @@ export default class Controller {
             else
                 this.HttpContext.response.JSON(this.repository.getAll());
     }
+
     post(data) {
         data = this.repository.add(data);
         if (this.repository.model.state.isValid) {
