@@ -15,7 +15,7 @@
         style="width: 20%"
         type="url"
         id="test-url"
-        value="http://localhost:5000/api/maths"
+        value="http://localhost:5000"
       />
       <span>/api/maths</span>
       <button id="test-btn">Démarrer le test</button>
@@ -46,61 +46,68 @@
 
 <script>
   // Tableau des URLs à tester
+
   const urls = [
-    "http://localhost:5000/api/maths?x=3&y=5&op=+",
-    "http://localhost:5000/api/maths?x=10&y=-2&op=+",
-    "http://localhost:5000/api/maths?x=5&y=a&op=+",
-    "http://localhost:5000/api/maths?x=7&y=6&op=*",
-    "http://localhost:5000/api/maths?x=8&y=0&op=*",
-    "http://localhost:5000/api/maths?x=9&y=-3&op=*",
-    "http://localhost:5000/api/maths?x=12&y=3x&op=*",
-    "http://localhost:5000/api/maths?x=10&y=2&op=/",
-    "http://localhost:5000/api/maths?x=9&y=3&op=/",
-    "http://localhost:5000/api/maths?x=5&y=0&op=/",
-    "http://localhost:5000/api/maths?x=15&y=b&op=/",
-    "http://localhost:5000/api/maths?x=5&y=3&op=-",
-    "http://localhost:5000/api/maths?x=20&y=7&op=-",
-    "http://localhost:5000/api/maths?x=15&y=-4&op=-",
-    "http://localhost:5000/api/maths?x=abc&y=2&op=-",
-    "http://localhost:5000/api/maths?x=3&y=4&op=plus",
-    "http://localhost:5000/api/maths?x=10&y=5&op=%",
-    "http://localhost:5000/api/maths?x=7&y=&op=+",
-    "http://localhost:5000/api/maths?x=&y=3&op=*",
-  ];
+    "/api/maths?op=+&x=-111&y=-244",
+    "/api/maths?op=-&x=1&y=abc",
+    "/api/maths?n=a&op=p",
+    "/api/maths?op=-&x=111&y=244",
+    "/api/maths?op=*&x=11.56&y=244.12345",
+    "/api/maths?op=/&x=99&y=11.06",
+    "/api/maths?op=/&x=99&y=0",
+    "/api/maths?op=/&x=0&y=0",
+    "/api/maths?op=%&x=5&y=5",
+    "/api/maths?op=%&x=100&y=13",
+    "/api/maths?op=%&x=100&y=0",
+    "/api/maths?op=%&x=0&y=0",
+    "/api/maths?n=0&op=!",
+    "/api/maths?n=0&op=p",
+    "/api/maths?n=1&op=p",
+    "/api/maths?n=2&op=p",
+    "/api/maths?n=5&op=p",
+    "/api/maths?n=6&op=p",
+    "/api/maths?n=6.5&op=p",
+    "/api/maths?n=113&op=p",
+    "/api/maths?n=114&op=p",
+    "/api/maths?n=1&op=np",
+    "/api/maths?n=30&op=np",
+    "/api/maths?X=111&op=+&y=244",
+    "/api/maths?Y=244&op=+&x=111",
+    "/api/maths?op=+&x=111&y=244&z=0",
+    "/api/maths?n=5&op=!&z=0",
+    "/api/maths?n=5.5&op=!",
+    "/api/maths?z=0",
+    "/api/maths?n=-5&op=!",
+    "/api/maths?x=null",
+
+]
+
 
   let errors = false;
 
-  function afficherReponse(response, isError = false) {
+  function showAnswers(response, isError = false) {
     const container = document.getElementById("test-container");
     const div = document.createElement("div");
 
-    if (isError) {
-      div.innerHTML = `Erreur ---> { error: ${response.error} }`;
-    } else {
-      const op = response.op || "undefined";
-      const x = response.x || "undefined";
-      const y = response.y || "undefined";
-      const value = response.value !== undefined ? response.value : "undefined";
-
-      div.innerHTML = `OK ---> { op: ${op}, x: ${x}, y: ${y}, value: ${value} }`;
-    }
-
+    div.innerHTML = `OK ---> ${JSON.stringify(response)}`;
     container.appendChild(div);
   }
 
-  function testerUrls() {
+  function testUrls() {
     document.getElementById("test-container").innerHTML = "";
     document.getElementById("verdict-container").innerHTML = "";
+    let host = document.getElementById("test-url").value;
+    console.log(host)
     errors = false;
 
     let promises = urls.map((url) => {
-      return fetch(url)
+      return fetch(host + url)
         .then((response) => response.json())
         .then((data) => {
-          afficherReponse(data);
+          showAnswers(data);
         })
         .catch((error) => {
-          afficherReponse({ error: "Erreur lors de la requête" }, true);
+          showAnswers({ error: "Erreur lors de la requête" });
           errors = true;
         });
     });
@@ -116,9 +123,9 @@
     });
   }
 
-  document.getElementById("test-btn").addEventListener("click", testerUrls);
+  document.getElementById("test-btn").addEventListener("click", testUrls);
 
   document.getElementById("help-btn").addEventListener("click", function () {
-    window.location.href = "aide.html";
+    window.location.href = "maths?";
   });
 </script>
