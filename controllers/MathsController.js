@@ -97,12 +97,14 @@ export default class MathsController extends Controller {
           if (this.validateParam(n)) return this.result(maths.factorial(n));
           break;
 
+        //isPrime
         case "p":
           if (this.validateParam(n)) return this.result(maths.isPrime(n));
           break;
 
+        //findPrime
         case "np":
-          if(this.validateParam(n)) return this.result(maths.findPrime(n));
+          if (this.validateParam(n)) return this.result(maths.findPrime(n));
           break;
 
         default:
@@ -164,5 +166,17 @@ export default class MathsController extends Controller {
       return this.help();
     }
     this.calculate();
+  }
+
+  post() {
+    return this.HttpContext.response.forbidden("Forbidden");
+  }
+
+  put() {
+    return this.HttpContext.response.forbidden("Forbidden");
+  }
+
+  remove() {
+    return this.HttpContext.response.forbidden("Forbidden");
   }
 }
